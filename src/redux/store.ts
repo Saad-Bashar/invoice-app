@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import counterReducer from "./counterSlice";
+import invoiceReducer from "./invoiceSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   persistReducer,
@@ -20,6 +21,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   counter: counterReducer,
+  invoice: invoiceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -28,9 +30,7 @@ const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false
     }),
 });
 
